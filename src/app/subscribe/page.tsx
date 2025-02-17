@@ -1,5 +1,5 @@
 const SubscribePage = () => {
-  return <div>Subscribe page</div>;
+  return <div className="pt-36">Subscribe page</div>;
 };
 
 export default SubscribePage;

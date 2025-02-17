@@ -1,5 +1,5 @@
 const MealPlanPage = () => {
-  return <div>Meal plan page</div>;
+  return <div className="pt-24">Meal plan page</div>;
 };
 
 export default MealPlanPage;
