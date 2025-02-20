@@ -6,12 +6,18 @@ const isPublicRoute = createRouteMatcher([
   '/sign-up(.*)',
   '/subscribe(.*)',
   '/api/webhook(.*)',
+  '/api/check-subscription(.*)',
 ]);
 const isSignUpRoute = createRouteMatcher(['/sign-up(.*)']);
+const isMealPlanRoute = createRouteMatcher(['/meal-plan(.*)']);
 
 export default clerkMiddleware(async (auth, request) => {
   const { userId } = await auth();
-  const { origin } = request.nextUrl;
+  const { origin, pathname } = request.nextUrl;
+
+  if (pathname === '/api/check-subscription') {
+    return NextResponse.next();
+  }
 
   if (!isPublicRoute(request) && !userId) {
     return NextResponse.redirect(new URL('/sign-up', origin));
@@ -19,6 +25,21 @@ export default clerkMiddleware(async (auth, request) => {
 
   if (isSignUpRoute(request) && userId) {
     return NextResponse.redirect(new URL('/meal-plan', origin));
+  }
+
+  if (isMealPlanRoute(request) && userId) {
+    try {
+      const response = await fetch(
+        `${origin}/api/check-subscription?userId=${userId}`
+      );
+      const data = await response.json();
+
+      if (!data.subscriptionActive) {
+        return NextResponse.redirect(new URL('/subscribe', origin));
+      }
+    } catch {
+      return NextResponse.redirect(new URL('/subscribe', origin));
+    }
   }
 
   return NextResponse.next();
