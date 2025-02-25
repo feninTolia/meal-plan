@@ -21,8 +21,7 @@ const CreateProfilePage = () => {
   const router = useRouter();
   const { mutate, isPending } = useMutation<ApiResponse>({
     mutationFn: createProfileRequest,
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
       router.push('/subscribe');
     },
     onError: (data) => {

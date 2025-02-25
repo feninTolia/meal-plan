@@ -46,7 +46,6 @@ const MealPlanPage = () => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    console.log(formData);
 
     const payload: IMealPlanInput = {
       dietType: formData.get('dietType')?.toString() ?? '',
