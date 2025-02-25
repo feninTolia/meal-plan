@@ -59,8 +59,8 @@ export async function POST(request: NextRequest) {
     `;
 
     const response = await openAI.chat.completions.create({
-      model: 'meta-llama/llama-3.3-70b-instruct:free',
-      // model: 'meta-llama/llama-3.2-1b-instruct:free',
+      // model: 'meta-llama/llama-3.3-70b-instruct:free',
+      model: 'meta-llama/llama-3.2-1b-instruct:free',
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.7,
       max_tokens: 1500,
