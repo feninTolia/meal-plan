@@ -4,11 +4,8 @@ import { prisma } from '@/lib/prisma';
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.nextUrl);
-    console.log('searchParams', searchParams);
 
     const userId = searchParams.get('userId');
-
-    console.log('userId', userId);
 
     if (!userId) {
       return NextResponse.json(
@@ -21,8 +18,6 @@ export async function GET(request: NextRequest) {
       where: { userId },
       select: { subscriptionActive: true },
     });
-
-    console.log('profile', profile);
 
     return NextResponse.json({
       subscriptionActive: profile?.subscriptionActive,
