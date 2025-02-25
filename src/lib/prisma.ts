@@ -10,13 +10,19 @@ declare global {
 
 let prisma: PrismaClient;
 
+console.log('DATABASE_URL: 222', process.env.DATABASE_URL);
+
 if (process.env.NODE_ENV === 'production') {
-  prisma = new PrismaClient();
+  prisma = new PrismaClient({
+    datasources: { db: { url: process.env.DATABASE_URL } },
+  });
 
   console.log('prisma', prisma);
 } else {
   if (!global.prisma) {
-    global.prisma = new PrismaClient();
+    global.prisma = new PrismaClient({
+      datasources: { db: { url: process.env.DATABASE_URL } },
+    });
   }
   prisma = global.prisma;
   console.log('prisma 2', prisma);
