@@ -12,11 +12,14 @@ let prisma: PrismaClient;
 
 if (process.env.NODE_ENV === 'production') {
   prisma = new PrismaClient();
+
+  console.log('prisma', prisma);
 } else {
   if (!global.prisma) {
     global.prisma = new PrismaClient();
   }
   prisma = global.prisma;
+  console.log('prisma 2', prisma);
 }
 
 export { prisma };

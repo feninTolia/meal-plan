@@ -56,6 +56,8 @@ async function handleCheckoutSessionCompleted(
   session: Stripe.Checkout.Session
 ) {
   const userId = session.metadata?.clerkUserId;
+  console.log(' clerk userId', userId);
+
   if (!userId) {
     console.log('No Clerk User Id');
     return;
@@ -69,7 +71,7 @@ async function handleCheckoutSessionCompleted(
   }
 
   try {
-    await prisma.profile.update({
+    const updatedProfile = await prisma.profile.update({
       where: { userId },
       data: {
         stripeSubscriptionId: subscriptionId,
@@ -77,6 +79,8 @@ async function handleCheckoutSessionCompleted(
         subscriptionTier: session.metadata?.planType ?? null,
       },
     });
+
+    console.log('Updated Profile', updatedProfile);
   } catch (error) {
     console.log(error);
   }
